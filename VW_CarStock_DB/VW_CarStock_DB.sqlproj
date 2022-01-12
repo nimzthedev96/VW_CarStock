@@ -56,5 +56,18 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="StoredProcedures" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="CarType.sql" />
+    <Build Include="CarMake.sql" />
+    <Build Include="EngineType.sql" />
+    <Build Include="Feature.sql" />
+    <Build Include="CarFeature.sql" />
+    <Build Include="CarStock.sql" />
+    <Build Include="StoredProcedures\LoadData_Intial.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <RefactorLog Include="VW_CarStock_DB.refactorlog" />
   </ItemGroup>
 </Project>
