@@ -22,6 +22,8 @@
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <IncludeSchemaNameInFileName>True</IncludeSchemaNameInFileName>
+    <DefaultSchema>dbo</DefaultSchema>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -60,19 +62,26 @@
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="StoredProcedures\LoadData_Intial.sql" />
-    <Build Include="Tables\Car.sql" />
+    <Build Include="StoredProcedures\LoadData_Initial.sql" />
+    <Build Include="Tables\car.sql" />
+    <Build Include="StoredProcedures\CreateCar.sql" />
+    <Build Include="StoredProcedures\UpdateCarStock.sql" />
+    <Build Include="StoredProcedures\UpdateCar.sql" />
+    <Build Include="StoredProcedures\DeleteCar.sql" />
+    <Build Include="StoredProcedures\CreateCarStock.sql" />
+    <Build Include="StoredProcedures\FetchAllCarsAndStock.sql" />
+    <Build Include="StoredProcedures\FetchCarStockByCarId.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="VW_CarStock_DB.refactorlog" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\CarFeature.sql" />
-    <Build Include="Tables\CarMake.sql" />
-    <Build Include="Tables\CarModel.sql" />
-    <Build Include="Tables\CarStock.sql" />
-    <Build Include="Tables\CarTrimLevel.sql" />
-    <Build Include="Tables\EngineType.sql" />
-    <Build Include="Tables\Feature.sql" />
+    <Build Include="Tables\car_has_feature.sql" />
+    <Build Include="Tables\car_make.sql" />
+    <Build Include="Tables\car_model.sql" />
+    <Build Include="Tables\car_stock.sql" />
+    <Build Include="Tables\car_trim_level.sql" />
+    <Build Include="Tables\car_engine_type.sql" />
+    <Build Include="Tables\car_feature.sql" />
   </ItemGroup>
 </Project>
