@@ -37,10 +37,10 @@ AS
 	INSERT INTO Feature(feature_description) VALUES('Fog lamps'); 
 
 	/* Add new car types and link their features */
-	INSERT INTO CarType(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Vivo Hatch', 1, 227900.00); 
-	INSERT INTO CarType(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Sedan', 1, 290000.00); 
-	INSERT INTO CarType(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Vivo', 1, 290000.00); 
-	INSERT INTO CarType(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Vivo', 1, 290000.00); 
+	/*INSERT INTO Car(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Vivo Hatch', 1, 227900.00); 
+	INSERT INTO Car(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Sedan', 1, 290000.00); 
+	INSERT INTO Car(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Vivo', 1, 290000.00); 
+	INSERT INTO CarType(car_make_id,model,engine_type_id,price) VALUES(1, 'Polo Vivo', 1, 290000.00); */
 
 	/* Add stock for car types */
 

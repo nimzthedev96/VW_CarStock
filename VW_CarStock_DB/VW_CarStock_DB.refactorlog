@@ -105,4 +105,39 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="is_optional" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="3f0d291c-73e7-4cc5-a6eb-41a266f9d162" ChangeDateTime="01/12/2022 19:16:08">
+    <Property Name="ElementName" Value="[dbo].[TrimLevel].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[TrimLevel]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="trim_level_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="44f6e78f-ae30-4e0c-8995-a496ca2cb301" ChangeDateTime="01/12/2022 19:19:38">
+    <Property Name="ElementName" Value="[dbo].[CarModel].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CarModel]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_model_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="6e16baa5-abaf-48af-893e-637108699ea3" ChangeDateTime="01/12/2022 19:21:22">
+    <Property Name="ElementName" Value="[dbo].[Car].[model]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Car]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_model_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="2454f742-83a5-487d-870c-666ee831f8a7" ChangeDateTime="01/12/2022 19:21:47">
+    <Property Name="ElementName" Value="[dbo].[CarTrimLevel].[trim_level_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[CarTrimLevel]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_trim_level_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="eaf02b2d-a867-4b5c-a924-4b529da3eaa0" ChangeDateTime="01/12/2022 19:26:16">
+    <Property Name="ElementName" Value="[dbo].[Car].[car_type_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Car]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_id" />
+  </Operation>
 </Operations>
