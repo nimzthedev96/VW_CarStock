@@ -69,7 +69,7 @@
     <Build Include="StoredProcedures\UpdateCar.sql" />
     <Build Include="StoredProcedures\DeleteCar.sql" />
     <Build Include="StoredProcedures\CreateCarStock.sql" />
-    <Build Include="StoredProcedures\FetchAllCarsAndStock.sql" />
+    <Build Include="StoredProcedures\FetchAllCarStock.sql" />
     <Build Include="StoredProcedures\FetchCarStockByCarId.sql" />
   </ItemGroup>
   <ItemGroup>

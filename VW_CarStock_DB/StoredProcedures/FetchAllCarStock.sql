@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[FetchAllCarsAndStock]
+﻿CREATE PROCEDURE [dbo].[FetchAllCarStock]
 AS
 BEGIN
 	SELECT [car].[car_id], [car].[price], [car_stock].[num_in_stock], [car_model].[description], [car_trim_level].[description], 

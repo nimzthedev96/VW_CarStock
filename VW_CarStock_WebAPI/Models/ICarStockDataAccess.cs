@@ -10,8 +10,9 @@ namespace VW_CarStock_WebAPI
     {
         IList<CarStock> GetCarStock();
         CarStock GetCarStockById(int id);
-        void InsertNew(CarStock carstock);
-        void UpdateCarStock(CarStock carstock);
-        void Delete(CarStock carstock);
+        void InsertNewCar(CarStock carStock);
+        void UpdateCarStock(CarStock carStock);
+        void DeleteCar(CarStock carStock);
+
     }
 }
