@@ -147,4 +147,32 @@
     <Property Name="ParentElementType" Value="SqlSchema" />
     <Property Name="NewName" Value="[car]" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="92924463-34fa-4d9a-bdeb-0c919426e796" ChangeDateTime="01/15/2022 20:25:15">
+    <Property Name="ElementName" Value="[dbo].[car_has_feature].[car_type_feature_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[car_has_feature]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_feature_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dbeb28af-9e63-4721-b360-5d39456628e3" ChangeDateTime="01/15/2022 20:26:04">
+    <Property Name="ElementName" Value="[dbo].[car_feature].[car_feature_id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[car_feature]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="feature_id" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="4d84e53c-6dbc-49e7-8964-f2400a3a198e" ChangeDateTime="01/15/2022 20:28:05">
+    <Property Name="ElementName" Value="[dbo].[car_feature].[feature_description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[car_feature]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="7ee3be57-6773-4229-b67b-9d02bcca7964" ChangeDateTime="01/15/2022 21:02:55">
+    <Property Name="ElementName" Value="[dbo].[car_feature].[description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[car_feature]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="feature_description" />
+  </Operation>
 </Operations>

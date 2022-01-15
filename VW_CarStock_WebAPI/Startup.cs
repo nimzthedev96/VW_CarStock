@@ -26,6 +26,16 @@ namespace VW_CarStock_WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    builder =>
+                    {
+                        builder.WithOrigins("https://localhost:5001")
+                               .AllowAnyHeader()
+                               .AllowAnyMethod();
+                    });
+            });
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -48,6 +58,8 @@ namespace VW_CarStock_WebAPI
 
             app.UseHttpsRedirection();
 
+            app.UseCors();
+
             app.UseRouting();
 
             app.UseAuthorization();
@@ -56,6 +68,7 @@ namespace VW_CarStock_WebAPI
             {
                 endpoints.MapControllers();
             });
+       
         }
     }
 }

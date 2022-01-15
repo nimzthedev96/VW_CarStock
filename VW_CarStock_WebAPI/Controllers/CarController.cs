@@ -1,43 +1,101 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VW_CarStock_Classes;
+using System;
+
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace VW_CarStock_WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+
     [ApiController]
     public class CarController : ControllerBase
     {
-        // GET: api/<ValuesController>
-        /*[HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }*/
-
-        // GET api/<ValuesController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
+     
         // POST api/<ValuesController>
+        [Route("api/createcar")]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void CreateCar([FromBody] Car car)
         {
+
+            CarStockDataAccess csda = new CarStockDataAccess();
+
+            Console.WriteLine("Heeeeeyyy");
+            Console.WriteLine(car.CarModel);
+
+            try
+            {
+                csda.InsertNewCar(car);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+                //return "Error: " + e.Message;
+            }
+
+            //return "Success";
+
         }
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [Route("api/updateCar")]
+        [HttpPost]
+        public void UpdateCar([FromBody] Car car)
         {
+            CarStockDataAccess csda = new CarStockDataAccess();
+
+            try
+            {
+                /* TO-DO */
+                csda.UpdateCar(car);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+                //return "Error: " + e.Message;
+            }
+
+            //return "Success";
         }
+
+        [Route("api/updatecarstock")]
+        [HttpPost]
+        public void UpdateCarStock(Car car)
+        {
+            CarStockDataAccess csda = new CarStockDataAccess();
+
+            try
+            {
+                csda.UpdateCarStock(car);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+                //return "Error: " + e.Message;
+            }
+
+            //return "Success";
+        }
+
 
         // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Route("api/deletecar")]
+        //[HttpDelete("{id}")]
+        [HttpPost]
+        public void DeleteCar(Car car)
         {
+            CarStockDataAccess csda = new CarStockDataAccess();
+
+            try
+            {
+                csda.DeleteCar(car);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error: " + e.Message);
+                //return "Error: " + e.Message;
+            }
+
+           // return "Success";
         }
     }
 }

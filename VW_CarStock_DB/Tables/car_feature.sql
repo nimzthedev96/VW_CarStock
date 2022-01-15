@@ -6,4 +6,5 @@
 
 GO
 
-CREATE INDEX [IX_Feature_id] ON [dbo].[car_feature] (car_feature_id)
+CREATE INDEX [IX_Feature_id] ON [dbo].[car_feature] ([car_feature_id])
+

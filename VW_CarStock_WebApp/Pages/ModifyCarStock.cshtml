@@ -1,8 +1,109 @@
 ﻿@page
-@model Pages_ModifyCarStock
+@model ModifyCarStock
 @{
     ViewData["Title"] = "Modify Car Stock";
 }
 <h1>@ViewData["Title"]</h1>
 
-<p>MODIFY </p>
+<div class="row">
+    <div class="col" >
+        @if (Model.car.CarId != 0 )
+        {
+            <p>Please update the car's details below</p>
+        }
+        else
+        {
+            <p>Please add the new car's details below</p>
+        }
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-4" >
+        <label for="carMake" class="form-label">Make: </label>
+        <input class="form-control" list="carMakeOptions" id="carMake" placeholder="Type to search...">
+        <datalist id="carMakeOptions">
+            @foreach(var make in Model.CarMakeList)
+            {
+                <option value="@make.Value.ToString()"> </option>
+            }
+        </datalist>
+    </div>
+</div>
+ <div class="row">
+
+    <div class="col-4" >
+        <label for="carModel" class="form-label">Model: </label>
+        <input class="form-control" list="carModelOptions" id="carModel" placeholder="Type to search...">
+        <datalist id="carModelOptions">
+            @foreach(var carmodel in Model.CarModelList)
+            {
+                <option value="@carmodel.Value.ToString()"> </option>
+            }
+        </datalist>
+    </div>
+</div>
+<div class="row">
+    <div class="col-4" >
+        <label for="carTrim" class="form-label">Trim: </label>
+        <input class="form-control" list="CarTrimOptions" id="carTrim" placeholder="Type to search...">
+        <datalist id="CarTrimOptions">
+            @foreach(var trim in Model.CarTrimLeveList)
+            {
+                <option value="@trim.Value.ToString()"> </option>
+            }
+        </datalist>
+    </div>
+</div>
+ <div class="row">
+    <div class="col-4" >
+        <label for="engineType" class="form-label">Engine: </label>
+        <input class="form-control" list="engineTypeOptions" id="engineType" placeholder="Type to search...">
+        <datalist id="engineTypeOptions">
+            @foreach(var engine in Model.CarEngineList)
+            {
+                <option value="@engine.Value.ToString()"> </option>
+            }
+        </datalist>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4" >
+        <label for="featurelist" class="form-label">Features: </label>
+        <select id="featurelist" class="form-select" size="3" multiple>
+            @foreach(var feature in Model.FeatureList)
+            {
+                <option value="@feature.Key.ToString()">@feature.Value.ToString()</option>
+
+            }
+         </select>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4" >
+        <label for="price" class="form-label">Price: </label>
+        <input id="price" type="number" step="0.01" class="form-control"  />
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-4" >
+        <button type="button" class="btn btn-labeled btn-success" onclick="saveCar()">
+            <span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>Save
+        </button>
+        @if (Model.car.CarId != 0 )
+        {
+            <button type="button" class="btn btn-labeled btn-error"  onclick="deleteCar()">
+                <span class="btn-label"><i class="glyphicon glyphicon-trashcan"></i></span>Delete
+            </button>
+        }
+       
+        <button type="button" class="btn btn-labeled btn-warning" >
+            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
+            <a class="" style="text-decoration: none; color:black;" asp-area="" asp-page="/ModifyCarStock">Cancel</a>
+        </button>
+    </div>
+</div>
+

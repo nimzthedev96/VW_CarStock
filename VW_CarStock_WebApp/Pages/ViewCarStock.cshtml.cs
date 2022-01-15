@@ -23,7 +23,6 @@ namespace VW_CarStock_WebApp.Pages
 
         public void OnGet()
         {
- 
             CarStockDataAccess csda = new CarStockDataAccess();
             Cars = csda.GetCarStock();
         }

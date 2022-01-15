@@ -5,7 +5,8 @@
 	@carModelId  int,
 	@carTrimLevelId  int,
 	@engineTypeId int,
-	@price float
+	@price decimal,
+	@numstock int
 )
 AS
 SET NOCOUNT ON
@@ -18,6 +19,10 @@ BEGIN TRANSACTION
 		[car_engine_type_id]=@engineTypeId,
 		[price]=@price 
 	WHERE [car].[car_id] = @carId;
+
+	UPDATE [car_stock]
+	SET [num_in_stock]=@numstock 
+	WHERE [car_stock].[car_id] = @carId;
 
 COMMIT
 
