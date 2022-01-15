@@ -175,4 +175,18 @@
     <Property Name="ParentElementType" Value="SqlTable" />
     <Property Name="NewName" Value="feature_description" />
   </Operation>
+  <Operation Name="Rename Refactor" Key="4f642ab4-fa19-45af-9ff4-07b7d979bb53" ChangeDateTime="01/15/2022 23:38:48">
+    <Property Name="ElementName" Value="[dbo].[car_trim_level].[description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[car_trim_level]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_trim_level_description" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="e32ced10-0d36-4fa9-98f8-e48b8699fc96" ChangeDateTime="01/15/2022 23:39:53">
+    <Property Name="ElementName" Value="[dbo].[car_model].[description]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[car_model]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="car_model_description" />
+  </Operation>
 </Operations>

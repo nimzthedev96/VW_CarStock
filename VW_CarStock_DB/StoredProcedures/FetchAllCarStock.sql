@@ -1,7 +1,7 @@
 ﻿CREATE PROCEDURE [dbo].[FetchAllCarStock]
 AS
 BEGIN
-	SELECT [car].[car_id], [car].[price], [car_stock].[num_in_stock], [car_model].[description], [car_trim_level].[description], 
+	SELECT [car].[car_id], [car].[price], [car_stock].[num_in_stock], [car_model].[car_model_description], [car_trim_level].[car_trim_level_description], 
 		   [car_engine_type].[engine_power], [car_engine_type].[engine_description], [car_engine_type].[is_automatic]
 	FROM [car]
 	  LEFT  JOIN [car_stock]       ON [car].[car_id]=[car_stock].[car_id]

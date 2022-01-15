@@ -6,26 +6,26 @@ BEGIN
 	BEGIN 
 		SELECT * 
 		FROM [car_model]
-	END;
+	END
 
 	IF (@listtype = 'Make' )
 	BEGIN 
 		SELECT * 
 		FROM [car_make]
-	END;
+	END
 
 	IF (@listtype = 'TrimLevel')
 	BEGIN 
 		SELECT * 
 		FROM [car_trim_level]
-	END;
+	END
 
 	IF (@listtype = 'Feature') 
 	BEGIN 
 		SELECT * 
 		FROM [car_feature]
-	END;
+	END
 END
 
-RETURN 0
+GO
 

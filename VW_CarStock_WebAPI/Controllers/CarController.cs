@@ -1,9 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using VW_CarStock_Classes;
+using VW_CarStock_WebAPI;
 using System;
-
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Configuration;
 
 namespace VW_CarStock_WebAPI.Controllers
 {
@@ -11,17 +10,13 @@ namespace VW_CarStock_WebAPI.Controllers
     [ApiController]
     public class CarController : ControllerBase
     {
-     
+        private CarStockDataAccess csda = new CarStockDataAccess(ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString);
+
         // POST api/<ValuesController>
         [Route("api/createcar")]
         [HttpPost]
         public void CreateCar([FromBody] Car car)
-        {
-
-            CarStockDataAccess csda = new CarStockDataAccess();
-
-            Console.WriteLine("Heeeeeyyy");
-            Console.WriteLine(car.CarModel);
+        { 
 
             try
             {
@@ -41,11 +36,8 @@ namespace VW_CarStock_WebAPI.Controllers
         [HttpPost]
         public void UpdateCar([FromBody] Car car)
         {
-            CarStockDataAccess csda = new CarStockDataAccess();
-
             try
             {
-                /* TO-DO */
                 csda.UpdateCar(car);
             }
             catch (Exception e)
@@ -61,8 +53,6 @@ namespace VW_CarStock_WebAPI.Controllers
         [HttpPost]
         public void UpdateCarStock(Car car)
         {
-            CarStockDataAccess csda = new CarStockDataAccess();
-
             try
             {
                 csda.UpdateCarStock(car);
@@ -79,12 +69,9 @@ namespace VW_CarStock_WebAPI.Controllers
 
         // DELETE api/<ValuesController>/5
         [Route("api/deletecar")]
-        //[HttpDelete("{id}")]
         [HttpPost]
         public void DeleteCar(Car car)
         {
-            CarStockDataAccess csda = new CarStockDataAccess();
-
             try
             {
                 csda.DeleteCar(car);

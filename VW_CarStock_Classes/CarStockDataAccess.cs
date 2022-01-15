@@ -23,37 +23,45 @@ namespace VW_CarStock_Classes
 
         public CarStockDataAccess()
         {
-             connectionString = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            connectionString = ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            InitializeData();
+        }
 
+        public CarStockDataAccess(string cs)
+        {
+            connectionString = cs;
+            InitializeData();
+        }
+
+        public void InitializeData()
+        {
             /* Populate our DB with data if we've got nothing
              * Note that inside our sp we are checking if the DB has records first... */
-            /* using (SqlConnection con = new SqlConnection(connectionString))
-             {
-                 var cmd = new SqlCommand("LoadData_Initial", con);
-                 con.Open();
-                 cmd.CommandType = CommandType.StoredProcedure;
-                 try
-                 {
-                     cmd.ExecuteNonQuery();
-                 }
-                 catch (Exception ex)
-                 {
-                     Console.WriteLine("Error LoadData_Initial: " + ex.Message);
-                     throw ex;
-                 }
-             }*/
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("LoadData_Initial", con);
+                con.Open();
+                cmd.CommandType = CommandType.StoredProcedure;
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error LoadData_Initial: " + ex.Message);
+                    throw ex;
+                }
+            }
+
             CarModelList = new List<KeyValuePair<int, string>>();
-            CarMakeList =  new List<KeyValuePair<int, string>>();
+            CarMakeList = new List<KeyValuePair<int, string>>();
             CarTrimLevelList = new List<KeyValuePair<int, string>>();
-            FeatureList =  new List<KeyValuePair<int, string>>();
-           // CarEngineList = initializeListData("Model", "car_model_id", "car_model_description", CarModelList);
+            FeatureList = new List<KeyValuePair<int, string>>();
 
             CarMakeList = initializeListData("Make", "car_make_id", "car_make_description", CarMakeList);
             CarTrimLevelList = initializeListData("TrimLevel", "car_trim_level_id", "car_trim_description", CarTrimLevelList);
             FeatureList = initializeListData("FeatureList", "car_feature_id", "feature_description", FeatureList);
             CarEngineList = initializeEngineTypeListData();
-
-            Console.WriteLine("CarModelList count= " + CarModelList.Count);
         }
 
         private List<KeyValuePair<int, string>> initializeListData(string listType, string fieldNameId, string fieldNameDesc, List<KeyValuePair<int, string>> list)
@@ -118,9 +126,9 @@ namespace VW_CarStock_Classes
                 {
                     Car car = new Car();
                     car.CarId = Convert.ToInt32(rdr["car_id"]);
-                    car.CarTrimLevel = rdr["car_trim_level"].ToString();
-                    car.CarMake = rdr["car_make"].ToString();
-                    car.CarEngine = rdr["car_engine_description"].ToString();
+                    car.CarTrimLevel = rdr["car_trim_level_description"].ToString();
+                    car.CarMake = rdr["car_make_description"].ToString();
+                    car.CarEngine = rdr["engine_description"].ToString();
                     car.CarModel = rdr["car_model_description"].ToString();
                     car.Price = (float)rdr["price"];
                     car.NumInStock = Convert.ToInt32(rdr["num_in_stock"]);

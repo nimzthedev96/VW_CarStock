@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[car_model]
 (
 	[car_model_id] INT IDENTITY(1,1) NOT NULL PRIMARY KEY, 
-    [description] TEXT NOT NULL
+    [car_model_description] TEXT NOT NULL
 )
 
 GO
