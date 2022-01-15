@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace VW_CarStock_WebAPI
+namespace VW_CarStock_Classes
 {
-    public class CarStock : ICarStock
+    public class Car : ICar
     {
         private int carId;
         private int numInStock;

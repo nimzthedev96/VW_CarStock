@@ -7,6 +7,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VW_CarStock_WebAPI", "VW_Ca
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VW_CarStock_DB", "VW_CarStock_DB\VW_CarStock_DB.sqlproj", "{7F7E65D3-34E2-4CAC-B623-A307D5E0DC4E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VW_CarStock_WebApp", "VW_CarStock_WebApp\VW_CarStock_WebApp.csproj", "{5821ADC1-4D5A-4975-9D26-7C4171C77CAD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VW_CarStock_Classes", "VW_CarStock_Classes\VW_CarStock_Classes.csproj", "{5BD468A0-A257-43B1-AEB3-F2AA5FAFFCA2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,6 +27,14 @@ Global
 		{7F7E65D3-34E2-4CAC-B623-A307D5E0DC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F7E65D3-34E2-4CAC-B623-A307D5E0DC4E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7F7E65D3-34E2-4CAC-B623-A307D5E0DC4E}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{5821ADC1-4D5A-4975-9D26-7C4171C77CAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5821ADC1-4D5A-4975-9D26-7C4171C77CAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5821ADC1-4D5A-4975-9D26-7C4171C77CAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5821ADC1-4D5A-4975-9D26-7C4171C77CAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5BD468A0-A257-43B1-AEB3-F2AA5FAFFCA2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5BD468A0-A257-43B1-AEB3-F2AA5FAFFCA2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5BD468A0-A257-43B1-AEB3-F2AA5FAFFCA2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5BD468A0-A257-43B1-AEB3-F2AA5FAFFCA2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

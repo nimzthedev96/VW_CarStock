@@ -1,0 +1,23 @@
+﻿@page
+@model IndexModel
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+             <h3 class="font-weight-bold">Welcome to the VolksWagen Stock taking system. Please choose your branch below to continue.</h3>
+        </div>
+    </div>
+     <div class="row">
+        <div class="col">
+             <div class="dropdown">
+                <button type="button" class="btn btn-dark dropdown-toggle" data-toggle="dropdown">
+                  Select Branch
+                </button>
+                <ul class="dropdown-menu">
+                    <li class="dropdown-item"> <a class="btn-light" asp-area="" asp-page="/ViewCarStock">Roodepoort</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+  </div>
+
