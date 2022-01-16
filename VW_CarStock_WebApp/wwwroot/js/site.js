@@ -109,8 +109,7 @@ function deleteCar() {
                 $("#Result").css("display", "block");
                 $("#Result").html('<div class="alert alert-success alert-dismissible fade show" role="alert"> Car delete updated successfully. <button type="button" class="close" data-dismiss="alert" aria-label="Close"> <span aria-hidden="true">&times;</span></button>');
 
-                //history.back();
-
+                window.location = document.referrer;
             },
         error:
             function (response) {
