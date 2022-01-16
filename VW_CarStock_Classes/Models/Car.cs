@@ -48,7 +48,6 @@ namespace VW_CarStock_Classes
 
         public string CarMake { get => carMake; }
         public string CarModel { get => carModel; }
-        public string CarEngine { get => carEngine; }
         public string CarTrimLevel { get => carTrimLevel; }
         public decimal Price { get => price; set => price = value; }
         public int NumInStock { get => numInStock; set => numInStock = value; }
@@ -66,13 +65,19 @@ namespace VW_CarStock_Classes
             } 
         }
 
-
         public void setEngineTypeDetails(int id, string description, bool isAuto, decimal power)
         {
             carEngineType.EngineId = id;
             carEngineType.EngineDescription = description;
             carEngineType.IsAutomatic = isAuto;
             carEngineType.EnginePower = power;
+        }
+
+        public Car()
+        {
+            carId = -1;
+            features = new List<KeyValuePair<int, string>>();
+            carEngineType = new CarEngineType();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace VW_CarStock_WebAPI.Controllers
             try
             {
                 csda.InsertNewCar(car);
-                return new JsonResult("{ success = true, response = 'Success:New car created' }");
+               
             }
             catch (Exception e)
             {
@@ -32,12 +32,16 @@ namespace VW_CarStock_WebAPI.Controllers
                 return new JsonResult("{ success = false, response = " + e.Message + " }");
 
             }
+
+            return new JsonResult("{ success = true, response = 'Success:New car created' }");
         }
 
         [Route("api/updateCar")]
         [HttpPost]
-        public void UpdateCar([FromBody] Car car)
+        public ActionResult UpdateCar([FromBody] Car car)
         {
+            System.Diagnostics.Debug.WriteLine("!!!---- car.Features.Count" + car.Features.Count);
+
             try
             {
                 csda.UpdateCar(car);
@@ -45,16 +49,19 @@ namespace VW_CarStock_WebAPI.Controllers
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
-                //return "Error: " + e.Message;
+                return new JsonResult("{ success = false, response = " + e.Message + " }");
             }
 
-            //return "Success";
+            return new JsonResult("{ success = true, response = 'Success' }");
         }
 
         [Route("api/updatecarstock")]
         [HttpPost]
-        public void UpdateCarStock(Car car)
+        public ActionResult UpdateCarStock(Car car)
         {
+            Console.WriteLine("carId " + car.CarId);
+            Console.WriteLine("numStock " + car.NumInStock);
+
             try
             {
                 csda.UpdateCarStock(car);
@@ -62,17 +69,17 @@ namespace VW_CarStock_WebAPI.Controllers
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
-                //return "Error: " + e.Message;
+                return new JsonResult("{ success = false, responseText = " + e.Message + " }");
             }
 
-            //return "Success";
+            return new JsonResult("{ success = true, responseText = 'Success' }");
         }
 
 
         // DELETE api/<ValuesController>/5
         [Route("api/deletecar")]
         [HttpPost]
-        public void DeleteCar(Car car)
+        public ActionResult DeleteCar(Car car)
         {
             try
             {
@@ -81,10 +88,10 @@ namespace VW_CarStock_WebAPI.Controllers
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
-                //return "Error: " + e.Message;
+                return new JsonResult("{ success = false, response = " + e.Message + " }");
             }
 
-           // return "Success";
+            return new JsonResult("{ success = true, response = 'Success' }");
         }
     }
 }

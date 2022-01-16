@@ -25,11 +25,11 @@ namespace VW_CarStock_WebApp.Pages
             _logger = logger;
         }
 
-        public void OnGet(int carId)
+        public void OnGet(int carid)
         {
             CarStockDataAccess csda = new CarStockDataAccess();
-            if (carId != 0)
-                car = csda.GetCarStockById(carId);
+            if (carid != 0)
+                car = csda.GetCarStockById(carid);
             else
                 car = new Car();
  

@@ -1,4 +1,5 @@
 ﻿body {
+    background-color: rgb(224,224,224);
 }
 
 accordion {
@@ -27,7 +28,8 @@ accordion {
 }
 
 .accordion:after {
-    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    content: '\2038'; /* Unicode character for "plus" sign (+) */
+    /* content: '\02795';  Unicode character for "plus" sign (+) */
     font-size: 13px;
     color: #777;
     float: right;

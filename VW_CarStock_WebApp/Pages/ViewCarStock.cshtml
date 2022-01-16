@@ -7,85 +7,111 @@
 
 <div class="container">
    
-            @if (Model.Cars.Count()>0)
-            {
-                @foreach (var car in Model.Cars)
-                {
-                <div class="row">
-                  <div class="col-6" >
-                    <button class="accordion accordion-before btn-light btn-block " style="text-align:left">
-                       @Html.DisplayFor(m => car.CarMake) @Html.DisplayFor(m => car.CarModel) - @Html.DisplayFor(m => car.CarTrimLevel)
+    @if (Model.Cars.Count()>0)
+    {
+        @foreach (var car in Model.Cars)
+        {
+        <div class="row">
+            <div class="col-12" >
+                <button class="accordion accordion-before btn-light btn-block " style="text-align:left">
+                    <span class="btn-label"><img src="~/pic/icon_car.jpg" height=25 width=25>
+                        <strong> @Html.DisplayFor(m => car.CarMake) @Html.DisplayFor(m => car.CarModel) - @Html.DisplayFor(m => car.CarTrimLevel)</strong>
+                    </span>
+                </button>
+                <div class="panel">
+                           
+                    <ul class="list-group list-group-flush">
+                        <li class=list-group-item >
 
-                    </button>
-                    <div class="panel">
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">
-                                <button type="button" class="btn btn-labeled btn-light"  onclick="">
-                                    <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
-                                    <a class="" style="text-decoration: none; color:black;" asp-area="" asp-page="/ModifyCarStock">Update</a>
+                            <div class="col-sm-2 " style="display: inline-block; float:left;"> 
+                               <img src=~/pic/icon_stock.png width=20 height=20> No. in stock:
+
+                            </div>     
+                            <div class="col-sm-2 " style="display: inline-block; float:left;"> 
+                              
+                                    
+                                     <input id="numInStock_@Html.DisplayFor(m => car.CarId)" type="number" min=0 class="form-control input-sm " title="Number in stock" disabled="disabled"  value="@Html.DisplayFor(m => car.NumInStock)"/>
+                              
+                            </div>     
+                            <div style="col-sm-3 display: inline-block; float:left; ">  
+                                <button id="editBtn_@Html.DisplayFor(m => car.CarId)" type="button" class="btn btn-sm btn-outline-dark " onclick="allowStockSave(this);">
+                                    <span class="btn-label"><img id="editImg_@Html.DisplayFor(m => car.CarId)" src="~/pic/icon_edit.png" height=25 width=25 >  Edit Car Stock</span>
                                 </button>
-                            </li>
-                            <li class="list-group-item">
-                                Make: @Html.DisplayFor(m => car.CarMake)            <br>
-                                Model: @Html.DisplayFor(m => car.CarModel)          <br>
-                                Trim Level: @Html.DisplayFor(m => car.CarTrimLevel) <br>
-                                Engine: @Html.DisplayFor(m => car.CarEngine)        <br>
-                                Features:                                           <br>
-                                <ul >
-                                   @foreach (var feature in car.Features)
-                                   {
-                                        <li class="list-group-item">@Html.DisplayFor(m => feature.Value) </li>
-                                   }
-                                </ul>
-                        </ul>
-                    </div>
-                    </div>
-                    <div class="col-2" >
-                        <button type="button" class="btn">
-                            <img src="~/pic/icon_edit.png" height=30 width=30> 
-                        </button>
-
-                        <input type="number" class="form-control" value="@Html.DisplayFor(m => car.NumInStock)"/> <span> in stock </span> 
-                    </div>
-                  </div>
-                }
-            }
-            else
-            {
-                 <div class="row">
-        <div class="col-6" >
+                                <button id="saveBtn_@Html.DisplayFor(m => car.CarId)" type="button"  class="btn btn-sm btn-outline-dark " style="display: none;" onclick="updateStock(this);">
+                                    <span class="btn-label"><img src="~/pic/icon_save.png"  height=17 width=17 > Save Car Stock </span>
+                                </button>
+                            </div> 
+                            <div style="col-sm-2 display: inline-block; float: right; ">  
+                                 <button type="button" class="btn btn-sm btn-outline-dark" style="float: right;">
+                                    <span class="btn-label"><img src="~/pic/icon_settings.png" height=15 width=15>
+                                    <a class="" style="text-decoration: none; color:black;" asp-page="/ModifyCarStock" asp-route-carid="@car.CarId" >Update Car Details</a>
+                                    </span>
+                                </button>
+                            </div>
+                        </li>
+                        <li class="list-group-item">
+                            Make: @Html.DisplayFor(m => car.CarMake)                         <br>
+                            Model: @Html.DisplayFor(m => car.CarModel)                       <br>
+                            Trim Level: @Html.DisplayFor(m => car.CarTrimLevel)              <br>
+                            Engine: @Html.DisplayFor(m => car.CarEngineType.FullDescription) <br>
+                            Price: R @Html.DisplayFor(m => car.Price)                     <br>
+                            Features:                                                        <br>
+                            <ul >
+                                @foreach (var feature in car.Features)
+                                {
+                                    <li>@Html.DisplayFor(m => feature.Value) </li>
+                                }
+                            </ul>
+                        </li> 
+                         <li class=list-group-item >
+                             <div id="Result_@Html.DisplayFor(m => car.CarId)">
+                             </div>
+                            <br/>
+                            <br/>
+                        </li>
+                    </ul>
+                </div>
+            </div> 
+        </div>
+        }   
+    }
+    else
+    {
+            <div class="row">
+            <div class="col-6" >
                 <p>No cars found.</p>
-                   </div>
+            </div>
        
-    </div>
-            }
-     </div>
-
+        </div>
+    }
+</div>
+ <br/>
 <div class="container">
     <div class="row">
         <div class="col" >
-            <button type="button" class="btn btn-labeled btn-success" >
-                <span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
-                <a class="" style="text-decoration: none; color:white;" asp-area="" asp-page="/ModifyCarStock">Add New Car</a>
+            <button type="button" class="btn btn-labeled btn-dark" >
+                <span class="btn-label"><img src="~/pic/icon_plus_white.png" width=20 height=20 />
+                    <a class="" style="text-decoration: none; color:white;" asp-area="" asp-page="/ModifyCarStock">Add New Car</a>
+                </span>
             </button>
-        
         </div>
     </div>
 </div>
 
 <script>
-  var acc = document.getElementsByClassName("accordion");
-  var i;
+    var acc = document.getElementsByClassName("accordion");
+    var i;
   
-  for (i = 0; i < acc.length; i++) {
-    acc[i].addEventListener("click", function() {
-      this.classList.toggle("active");
-      var panel = this.nextElementSibling;
-      if (panel.style.maxHeight) {
-        panel.style.maxHeight = null;
-      } else {
-        panel.style.maxHeight = panel.scrollHeight + "px";
-      }
-    });
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            }
+        }
+     );
   }
 </script>

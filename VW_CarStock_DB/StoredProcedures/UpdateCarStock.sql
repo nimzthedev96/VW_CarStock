@@ -12,5 +12,3 @@ BEGIN TRANSACTION
 	WHERE [car_stock].[car_id] = @carId;
 
 COMMIT
-
-GO

@@ -168,19 +168,39 @@ namespace VW_CarStock_Classes
             {
                 SqlCommand cmd = new SqlCommand("FetchCarStockByCarId", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@car_id", id);
+                cmd.Parameters.AddWithValue("@carId", id);
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
                     car.CarId = Convert.ToInt32(rdr["car_id"]);
-                    car.CarId = Convert.ToInt32(rdr["car_id"]);
                     car.CarTrimLevelId = Convert.ToInt32(rdr["car_trim_level_id"]);
                     car.CarMakeId = Convert.ToInt32(rdr["car_make_id"]);
                     car.CarModelId = Convert.ToInt32(rdr["car_model_id"]);
-                    car.Price = Convert.ToDecimal(rdr["car_model_description"]);
+                    car.Price = Convert.ToDecimal(rdr["price"]);
                     car.NumInStock = Convert.ToInt32(rdr["num_in_stock"]);
-                };
+                    car.setEngineTypeDetails(Convert.ToInt32(rdr["car_engine_type_id"]),
+                                             rdr["engine_description"].ToString(),
+                                             (bool)rdr["is_automatic"],
+                                             Convert.ToDecimal(rdr["engine_power"]));
+
+                    car.Features = new List<KeyValuePair<int, string>>();
+                    KeyValuePair<int, string> feat;
+                    using (SqlConnection con2 = new SqlConnection(connectionString))
+                    {
+                        SqlCommand cmd2 = new SqlCommand("FetchCarFeaturesByCarId", con2);
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.Parameters.AddWithValue("@carid", car.CarId);
+                        con2.Open();
+                        SqlDataReader rdr2 = cmd2.ExecuteReader();
+                        while (rdr2.Read())
+                        {
+                            feat = new KeyValuePair<int, string>(Convert.ToInt32(rdr2["car_feature_id"]), rdr2["feature_description"].ToString());
+                            car.Features.Add(feat);
+                        };
+                    }
+
+                }
                 con.Close();
             }
             return car;
@@ -202,23 +222,28 @@ namespace VW_CarStock_Classes
                 cmd.Parameters.AddWithValue("@carengineTypeId", car.CarEngineId);
                 cmd.Parameters.AddWithValue("@price", car.Price);
                 cmd.Parameters.AddWithValue("@numStock", car.NumInStock);
+                cmd.Parameters.Add("@carId", SqlDbType.Int).Direction = ParameterDirection.Output;
 
-                cmd.ExecuteNonQuery(); 
+                cmd.ExecuteNonQuery();
+                car.CarId = Convert.ToInt32(cmd.Parameters["@carId"].Value);
             }
+
+            UpdateCarStock(car);
+            UpdateCarFeatures(car.CarId, car.Features);
         }
     
         public void UpdateCar(Car car)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                var cmd = new SqlCommand("UpdateCarStock", con);
+                var cmd = new SqlCommand("UpdateCar", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
-                cmd.Parameters.AddWithValue("@car_id", car.CarId);
+                cmd.Parameters.AddWithValue("@carId", car.CarId);
                 cmd.Parameters.AddWithValue("@carMakeId", car.CarMakeId);
                 cmd.Parameters.AddWithValue("@carModelId", car.CarModelId);
                 cmd.Parameters.AddWithValue("@carTrimLevelId", car.CarTrimLevelId);
-                cmd.Parameters.AddWithValue("@carengineTypeId", car.CarEngineId);
+                cmd.Parameters.AddWithValue("@engineTypeId", car.CarEngineId);
                 cmd.Parameters.AddWithValue("@price", car.Price);
                 cmd.Parameters.AddWithValue("@numStock", car.NumInStock);
 
@@ -233,21 +258,80 @@ namespace VW_CarStock_Classes
                 }
                 
             }
+
+            UpdateCarStock(car);
+            UpdateCarFeatures(car.CarId, car.Features);
+
+        }
+
+
+        public void UpdateCarFeatures(int carId, List<KeyValuePair<int, string>> features)
+        {
+            /* For simplicity sake we wil always delete all car featurees and re-add */
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                var cmd = new SqlCommand("DeleteAllCarFeatures", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@carId", carId);
+                try
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error Updating UpdateCarFeatures: " + ex.Message);
+                    throw ex;
+                }
+
+            }
+
+            SqlConnection con2 = new SqlConnection(connectionString);
+            
+            var cmd2 = new SqlCommand("CreateCarFeature", con2);
+            cmd2.CommandType = CommandType.StoredProcedure;
+
+            foreach(KeyValuePair<int, string> feature in features)
+            {
+                con2.Open();
+                cmd2.Parameters.Clear();
+                cmd2.Parameters.AddWithValue("@carId", carId);
+                cmd2.Parameters.AddWithValue("@featureId", feature.Key);
+                Console.WriteLine("feature.Key " + feature.Key);
+
+                try
+                {
+                    cmd2.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error Updating CreateCarFeature: " + ex.Message);
+                    throw ex;
+                }
+                finally
+                {
+                    con2.Close();
+                }
+            }
         }
 
         public void UpdateCarStock(Car car)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                var cmd = new SqlCommand("UpdateCar", con);
+                var cmd = new SqlCommand("UpdateCarStock", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
-                cmd.Parameters.AddWithValue("@car_id", car.CarId);
+                cmd.Parameters.AddWithValue("@carId", car.CarId);
                 cmd.Parameters.AddWithValue("@numStock", car.NumInStock);
+
+                Console.WriteLine("@carId" + car.CarId);
+                Console.WriteLine("@carId" + car.NumInStock);
 
                 try
                 {
                     cmd.ExecuteNonQuery();
+                    Console.WriteLine("Updated car stock successfully: ");
                 }
                 catch (Exception ex)
                 {
@@ -268,10 +352,10 @@ namespace VW_CarStock_Classes
 
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                var cmd = new SqlCommand("DeleteCarStock", con);
+                var cmd = new SqlCommand("DeleteCar", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
-                cmd.Parameters.AddWithValue("@car_id", car.CarId);
+                cmd.Parameters.AddWithValue("@carId", car.CarId);
                 try
                 {
                     cmd.ExecuteNonQuery();

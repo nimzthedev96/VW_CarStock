@@ -1,31 +1,48 @@
 ﻿@page
 @model ModifyCarStock
 @{
-    ViewData["Title"] = "Modify Car Stock";
+    @if (Model.car.CarId == -1 )
+    {
+        ViewData["Title"] = "Add New Car";
+    }
+    else
+    {
+        ViewData["Title"] = "Modify Car Details";
+    }
+
 }
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">
     <div class="col" >
-        @if (Model.car.CarId != 0 )
+        @if (Model.car.CarId == -1)
         {
-            <p>Please update the car's details below</p>
+            <p>Please add the new car's details below</p>
         }
         else
         {
-            <p>Please add the new car's details below</p>
+            <p>Please update the car's details below</p> 
         }
     </div>
 
 </div>
 <form class="form-horizontal" action="">
      <div class="row form-group">
+         <input type="hidden" class="form-control" value="@Model.car.CarId" id="carId"/>
+
          <label for="carMakeId" class="control-label col-sm-2">Make</label>
          <div class="col-sm-4">
              <select id="carMakeId" class="form-control"  >
              @foreach(var make in Model.CarMakeList)
              {
-                <option value="@make.Key.ToString()"> @make.Value.ToString()</option>
+               
+                 @if(Model.car.CarMakeId == make.Key)
+                 {
+                      <option value="@make.Key.ToString()" selected=""> @make.Value.ToString()</option>
+                 }
+                 else{
+                      <option value="@make.Key.ToString()"> @make.Value.ToString()</option>
+                 }
              }
              </select>
         </div>
@@ -36,7 +53,14 @@
              <select id="carModelId" class="form-control"  >
              @foreach(var carmodel in Model.CarModelList)
              {
-                <option value="@carmodel.Key.ToString()"> @carmodel.Value.ToString()</option>
+                 @if(Model.car.CarModelId == carmodel.Key)
+                 {
+                     <option value="@carmodel.Key.ToString()" selected=""> @carmodel.Value.ToString()</option>   
+                 }
+                 else{
+                     <option value="@carmodel.Key.ToString()"> @carmodel.Value.ToString()</option>
+                 }
+                
              }
              </select>
         </div>
@@ -47,7 +71,14 @@
              <select id="carTrimId" class="form-control"  >
              @foreach(var trim in Model.CarTrimLeveList)
              {
-                <option value="@trim.Key.ToString()"> @trim.Value.ToString()</option>
+                 @if(Model.car.CarTrimLevelId == trim.Key)
+                 {
+                     <option value="@trim.Key.ToString()" selected=""> @trim.Value.ToString()</option>   
+                 }
+                 else{
+                     <option value="@trim.Key.ToString()"> @trim.Value.ToString()</option>
+                 }
+               
              }
              </select>
         </div>
@@ -57,16 +88,23 @@
         <div class="col-sm-4">
             <select id="engineTypeId" class="form-control"  >
                 @foreach(var engine in Model.CarEngineList)
-                 {
-                     <option value="@engine.Key.ToString()">@engine.Value.ToString()</option>
-                 }
+                {
+                    @if(Model.car.CarEngineType.EngineId == engine.Key)
+                    {
+                        <option value="@engine.Key.ToString()" selected="">@engine.Value.ToString()</option>
+                    }
+                    else{
+                        <option value="@engine.Key.ToString()">@engine.Value.ToString()</option>
+                    }
+                    
+                }
             </select>
         </div>
     </div>
     <div class="row form-group">
         <label for="price" class="control-label col-sm-2">Price</label>
-        <div class="col-sm-4" >
-            <input id="price" type="number" step="0.01" class="form-control"  />
+        <div class="col-sm-4" > 
+            <input id="price" type="number" step="0.01" class="form-control" min="0.00" value="@Model.car.Price.ToString().Replace(",",".")" />         
         </div>
     </div>
     <div class="row form-group">
@@ -75,31 +113,42 @@
             <select id="featurelist" class="form-control" size="3" multiple>
                 @foreach(var feature in Model.FeatureList)
                 {
-                    <option value="@feature.Key.ToString()">@feature.Value.ToString()</option>
+                     @if(Model.car.Features.Contains(feature))
+                     {
+                         <option value="@feature.Key.ToString()" selected="">@feature.Value.ToString()</option>   
+                     }
+                     else{
+                         <option value="@feature.Key.ToString()">@feature.Value.ToString()</option>
+                     }
                 }
              </select>
         </div>
     </div>
 </form>
-
 <div class="row">
-    <div class="col-sm-1" >
-        <button type="button" class="btn btn-labeled btn-success" onclick="saveCar()">
-            <span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>Save
-        </button>
+    <div class="col-sm-12" >
+        <div id="Result"></div>
+        <br />
     </div>
-    @if (Model.car.CarId != 0 )
-    {
-        <div class="col-sm-2" >
-            <button type="button" class="btn btn-labeled btn-error"  onclick="deleteCar()">
-                <span class="btn-label"><i class="glyphicon glyphicon-trashcan"></i></span>Delete
+</div>
+
+<div class="row" >
+    <div class="col-sm-6">
+        <button type="button" class="btn btn-labeled btn-dark" onclick="saveCar();">
+            <span class="btn-label"><img src="~/pic/icon_save_white.png" height=15 width=15> Save</span>
+        </button>
+    
+        @if (Model.car.CarId != -1 )
+        {
+            <button type="button" class="btn btn-labeled btn-dark"  onclick="deleteCar()">
+                <span class="btn-label"><img src="~/pic/icon_delete_white.png" height=15 width=15> Delete</span>
             </button>
-        </div>
-    }
-    <div class="col-sm-1" >
-        <button type="button" class="btn btn-labeled btn-warning" >
-            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
-            <a class="" style="text-decoration: none; color:black;" asp-area="" asp-page="/ViewCarStock">Cancel</a>
+        }
+
+        <button type="button" class="btn btn-labeled btn-dark" >
+            <span class="btn-label"><img src="~/pic/icon_back_white.png" height=15 width=15>
+                <a class="" style="text-decoration: none; color:white;" asp-area="" asp-page="/ViewCarStock">Back</a>
+            </span>
         </button>
     </div>
 </div>

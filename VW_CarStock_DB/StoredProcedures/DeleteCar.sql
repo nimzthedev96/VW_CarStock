@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[delete_car]
+﻿CREATE PROCEDURE [dbo].[DeleteCar]
 	@carId int
 AS
 SET NOCOUNT ON

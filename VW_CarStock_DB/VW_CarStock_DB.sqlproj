@@ -77,6 +77,8 @@
     <Build Include="StoredProcedures\InitializeCarTrimLevelList.sql" />
     <Build Include="StoredProcedures\InitializeFeatureList.sql" />
     <Build Include="StoredProcedures\InitializeEngineList.sql" />
+    <Build Include="StoredProcedures\CreateCarFeature.sql" />
+    <Build Include="StoredProcedures\DeleteAllCarFeatures.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="VW_CarStock_DB.refactorlog" />

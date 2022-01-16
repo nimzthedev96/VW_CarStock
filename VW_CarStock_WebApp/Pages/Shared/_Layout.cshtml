@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Volkswagen Car Stock Tracking</title>
+    <title>@ViewData["Title"] - Volkswagen Stock Tracking</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/custom.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/custom.css" />
 </head>
-<body>
-    <header>
+<body style="background-color: rgb(224,224,224);">
+    <header style="background-color:navy;">
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <img src="pic/vw_logo_icon.png" width="38" height="38"/>
-                <a class="navbar-brand" asp-area="" asp-page="/Index"> &nbsp; VolksWagen - Car Stock Tracking</a>
+                <a class="navbar-brand" asp-area="" asp-page="/Index"> &nbsp; Volkswagen - Stock Tracking</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -31,7 +31,7 @@
             </div>
         </nav>
     </header>
-    <div class="container">
+    <div class="container" >
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
