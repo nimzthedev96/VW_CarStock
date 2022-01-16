@@ -15,6 +15,6 @@ BEGIN TRANSACTION
 		([car_make_id], [car_model_id], [car_trim_level_id], [car_engine_type_id], [price]) 
 		VALUES(@carMakeId, @carModelId, @carTrimLevelId, @carengineTypeId, @price);
 	INSERT INTO [car_stock]
-		([car_id], [num_in_stock])
-		VALUES(SCOPE_IDENTITY(), @numstock);
+		([car_id], [num_in_stock], [last_updated])
+		VALUES(SCOPE_IDENTITY(), @numstock, GETDATE());
 COMMIT

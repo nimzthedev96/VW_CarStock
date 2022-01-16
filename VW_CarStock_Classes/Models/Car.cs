@@ -9,23 +9,63 @@ namespace VW_CarStock_Classes
     {
         private int carId;
         private int numInStock;
-        private float price;
+        private decimal price;
+        private int carTrimLevelId;
+        private int carEngineId;
+        private int carModelId;
+        private int carMakeId;
         private string carTrimLevel;
         private string carEngine;
         private string carModel;
         private string carMake;
-        private List<string> features;
+        private List<KeyValuePair<int, string>> features;
+
         private CarEngineType carEngineType;
 
         public int CarId { get => carId; set => carId = value; }
-        public string CarMake { get => carMake; set => carMake = value; }
-        public string CarModel { get => carModel; set => carModel = value; }
-        public string CarEngine { get => carEngine; set => carEngine = value; }
-        public string CarTrimLevel { get => carTrimLevel; set => carTrimLevel = value; }
-        public float Price { get => price; set => price = value; }
+        public int CarTrimLevelId { get => carTrimLevelId;
+            set
+            {
+                carTrimLevelId = value;
+                CarMasterValues.allowedTrimLevels.TryGetValue(value, out carTrimLevel);      
+            }
+        }
+        public int CarEngineId { get => carEngineId; set => carEngineId = value; }
+        public int CarModelId { get => carModelId;
+            set
+            {
+                carModelId = value;
+                CarMasterValues.allowedModels.TryGetValue(value, out carModel);
+            }
+        }
+        public int CarMakeId { get => carMakeId;
+            set
+            {
+                carMakeId = value;
+                CarMasterValues.allowedMakes.TryGetValue(value, out carMake);
+            }
+        }
+
+        public string CarMake { get => carMake; }
+        public string CarModel { get => carModel; }
+        public string CarEngine { get => carEngine; }
+        public string CarTrimLevel { get => carTrimLevel; }
+        public decimal Price { get => price; set => price = value; }
         public int NumInStock { get => numInStock; set => numInStock = value; }
-        public List<string> Features { get; set; }
-        public CarEngineType CarEngineType {get;}
+        public List<KeyValuePair <int,string>> Features {
+            get => features;
+            set
+            {
+                features = value;
+            }
+        }
+        public CarEngineType CarEngineType {get => carEngineType; 
+            set 
+            { 
+
+            } 
+        }
+
 
         public void setEngineTypeDetails(int id, string description, bool isAuto, decimal power)
         {
@@ -33,13 +73,6 @@ namespace VW_CarStock_Classes
             carEngineType.EngineDescription = description;
             carEngineType.IsAutomatic = isAuto;
             carEngineType.EnginePower = power;
-            carEngineType.FullDescription = carEngineType.EnginePower.ToString() + "L "
-                                          + carEngineType.EngineDescription + " ";
-
-            if (carEngineType.IsAutomatic)
-                carEngineType.FullDescription = carEngineType.FullDescription + " Automatic";
-            else 
-                carEngineType.FullDescription = carEngineType.FullDescription + " Manual";
         }
     }
 }

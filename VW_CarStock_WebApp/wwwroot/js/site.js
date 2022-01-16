@@ -2,15 +2,16 @@
 
 function saveCar()
 {
+    var features = $("#featureList").val();
     var car = {
         CarId: -1,
-        CarModel: "Polo Vivo",
-        CarMake: "VW",
-        CarTrimLevel: "Comfortline",
-        CarEngine: "1.0",
-        Price: 1000.00,
-        NumInStock: 0
-       // Features: ["Code", "Coffee", "Stackoverflow"]
+        CarModelId: $("#carModelId").val(),
+        CarMakeId: $("#carMakeId").val(),
+        CarTrimLevelId: $("#carTrimId").val(),
+        CarEngineId: $("#engineTypeId").val(),
+        Price: $("#price").val(),
+        NumInStock: 0,
+        Features: features
     };
 
     console.log(JSON.stringify(car));
@@ -23,18 +24,17 @@ function saveCar()
         data: JSON.stringify(car),
         success:
             function (response) {
-                alert("Success: " + response.responseText);
+                //alert("Success: " + response.responseText);
+                $("Success").show();
             },
         error:
             function (response) {
-                alert("Error: " + response.responseText);
+                //alert("Error: " + response.responseText);
+                $("Error").value = "Error: " + response.responseText;
+                $("Error").show();
             }
     })
 
-        //.done(function (res) {
-     //   console.log(html(res));
-    //}
-}
 
 
 function deleteCar() {
@@ -67,7 +67,5 @@ function deleteCar() {
             }
     })
 
-    //.done(function (res) {
-    //   console.log(html(res));
-    //}
+
 }

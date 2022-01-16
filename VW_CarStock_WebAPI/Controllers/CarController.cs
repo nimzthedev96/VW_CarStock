@@ -3,6 +3,8 @@ using VW_CarStock_Classes;
 using VW_CarStock_WebAPI;
 using System;
 using System.Configuration;
+using Microsoft.Web;
+
 
 namespace VW_CarStock_WebAPI.Controllers
 {
@@ -15,21 +17,21 @@ namespace VW_CarStock_WebAPI.Controllers
         // POST api/<ValuesController>
         [Route("api/createcar")]
         [HttpPost]
-        public void CreateCar([FromBody] Car car)
-        { 
+        public ActionResult CreateCar([FromBody] Car car)
+        {
+            System.Diagnostics.Debug.Write("inside create car " + car.CarEngineId.ToString());
 
             try
             {
                 csda.InsertNewCar(car);
+                return new JsonResult("{ success = true, response = 'Success:New car created' }");
             }
             catch (Exception e)
             {
                 Console.WriteLine("Error: " + e.Message);
-                //return "Error: " + e.Message;
+                return new JsonResult("{ success = false, response = " + e.Message + " }");
+
             }
-
-            //return "Success";
-
         }
 
         [Route("api/updateCar")]

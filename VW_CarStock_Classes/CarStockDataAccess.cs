@@ -19,7 +19,7 @@ namespace VW_CarStock_Classes
         public List<KeyValuePair<int, string>> CarMakeList;
         public List<KeyValuePair<int, string>> CarTrimLevelList;
         public List<KeyValuePair<int, string>> FeatureList;
-        public List<CarEngineType> CarEngineList;
+        public List<KeyValuePair<int, string>> CarEngineList;
 
         public CarStockDataAccess()
         {
@@ -53,32 +53,33 @@ namespace VW_CarStock_Classes
                 }
             }
 
-            CarModelList = new List<KeyValuePair<int, string>>();
-            CarMakeList = new List<KeyValuePair<int, string>>();
-            CarTrimLevelList = new List<KeyValuePair<int, string>>();
-            FeatureList = new List<KeyValuePair<int, string>>();
-
-            CarMakeList = initializeListData("Make", "car_make_id", "car_make_description", CarMakeList);
-            CarTrimLevelList = initializeListData("TrimLevel", "car_trim_level_id", "car_trim_description", CarTrimLevelList);
-            FeatureList = initializeListData("FeatureList", "car_feature_id", "feature_description", FeatureList);
+            CarModelList = initializeListData("InitializeModelList", "car_model_id", "car_model_description");
+            CarMakeList = initializeListData("InitializeMakeList", "car_make_id", "car_make_description");
+            CarTrimLevelList = initializeListData("InitializeCarTrimLevelList", "car_trim_level_id", "car_trim_level_description");
+            FeatureList = initializeListData("InitializeFeatureList", "car_feature_id", "feature_description");
             CarEngineList = initializeEngineTypeListData();
         }
 
-        private List<KeyValuePair<int, string>> initializeListData(string listType, string fieldNameId, string fieldNameDesc, List<KeyValuePair<int, string>> list)
+        private List<KeyValuePair<int, string>> initializeListData(string sp, string fieldNameId, string fieldNameDesc)
         {
-           // List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>> ();
-           
+            List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>> ();
+            System.Diagnostics.Debug.WriteLine("initializeListData called " + sp);
+            System.Diagnostics.Debug.WriteLine("Connection string"  + connectionString);
+
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("InitializeList", con);
+                System.Diagnostics.Debug.WriteLine("inside usinbg con");
+                SqlCommand cmd = new SqlCommand(sp, con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@listtype", listType);
                 con.Open();
+              
                 SqlDataReader rdr = cmd.ExecuteReader();
+
                 while (rdr.Read())
                 {
-                    val = new KeyValuePair<int, string>(Convert.ToInt32(rdr[fieldNameId]), 
-                                                        rdr["description"].ToString());
+                    System.Diagnostics.Debug.WriteLine("Adding to list");
+
+                    val = new KeyValuePair<int, string>(Convert.ToInt32(rdr[fieldNameId]), rdr[fieldNameDesc].ToString());
                     list.Add(val);
                 };
             }
@@ -86,25 +87,25 @@ namespace VW_CarStock_Classes
             return list;
         }
 
-        private List<CarEngineType>  initializeEngineTypeListData()
+        private List<KeyValuePair<int, string>> initializeEngineTypeListData()
         {
-            List<CarEngineType> list = new List<CarEngineType> ();
+            List<KeyValuePair<int, string>> list = new List<KeyValuePair<int, string>>();
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = new SqlCommand("InitializeList", con);
+                SqlCommand cmd = new SqlCommand("InitializeEngineList", con);
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@listtype", "EngineType");
                 con.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
                 {
                     CarEngineType engType = new CarEngineType();
-                    engType.EngineId = Convert.ToInt32(rdr["engine_type_description"]);
-                    engType.EnginePower = Convert.ToDecimal(rdr["engine_type_description"]);
+                    engType.EngineId = Convert.ToInt32(rdr["car_engine_type_id"]);
+                    engType.EnginePower = Convert.ToDecimal(rdr["engine_power"]);
                     engType.IsAutomatic = (bool)rdr["is_automatic"];
-                    engType.EngineDescription = rdr["engine_type_description"].ToString();
-                    list.Add(engType);
+                    engType.EngineDescription = rdr["engine_description"].ToString();
+                    val = new KeyValuePair<int, string>(engType.EngineId, engType.FullDescription);
+                    list.Add(val);
                 };
             }
 
@@ -126,27 +127,31 @@ namespace VW_CarStock_Classes
                 {
                     Car car = new Car();
                     car.CarId = Convert.ToInt32(rdr["car_id"]);
-                    car.CarTrimLevel = rdr["car_trim_level_description"].ToString();
-                    car.CarMake = rdr["car_make_description"].ToString();
-                    car.CarEngine = rdr["engine_description"].ToString();
-                    car.CarModel = rdr["car_model_description"].ToString();
-                    car.Price = (float)rdr["price"];
+                    car.CarTrimLevelId = Convert.ToInt32(rdr["car_trim_level_id"]);
+                    car.CarMakeId = Convert.ToInt32(rdr["car_make_id"]);
+                    car.CarModelId = Convert.ToInt32(rdr["car_model_id"]);
+                    car.Price = Convert.ToDecimal(rdr["price"]);
                     car.NumInStock = Convert.ToInt32(rdr["num_in_stock"]);
                     car.setEngineTypeDetails(Convert.ToInt32(rdr["car_engine_type_id"]), 
                                              rdr["engine_description"].ToString(),
                                              (bool)rdr["is_automatic"],
                                              Convert.ToDecimal(rdr["engine_power"]));
 
-                    car.Features = new List<string>();
-                    SqlCommand cmd2 = new SqlCommand("FetchCarFeaturesByCarId", con);
-                    cmd2.CommandType = CommandType.StoredProcedure;
-                    cmd2.Parameters.AddWithValue("@car_id", car.CarId);
-                    con.Open();
-                    SqlDataReader rdr2 = cmd2.ExecuteReader();
-                    while (rdr2.Read())
+                    car.Features = new List<KeyValuePair<int, string>>();
+                    KeyValuePair<int, string> feat;
+                    using (SqlConnection con2 = new SqlConnection(connectionString))
                     {
-                        car.Features.Add(rdr2["description"].ToString());
-                    };
+                        SqlCommand cmd2 = new SqlCommand("FetchCarFeaturesByCarId", con2);
+                        cmd2.CommandType = CommandType.StoredProcedure;
+                        cmd2.Parameters.AddWithValue("@carid", car.CarId);
+                        con2.Open();
+                        SqlDataReader rdr2 = cmd2.ExecuteReader();
+                        while (rdr2.Read())
+                        {
+                            feat = new KeyValuePair<int, string>(Convert.ToInt32(rdr2["car_feature_id"]), rdr2["feature_description"].ToString());
+                            car.Features.Add(feat); 
+                        };
+                    }
 
                     carStock_List.Add(car);
 
@@ -154,7 +159,6 @@ namespace VW_CarStock_Classes
                 return (carStock_List);
             }
         }
-
 
         /* Return a single CarStock object */
         public Car GetCarStockById(int id)
@@ -170,11 +174,11 @@ namespace VW_CarStock_Classes
                 while (rdr.Read())
                 {
                     car.CarId = Convert.ToInt32(rdr["car_id"]);
-                    car.CarTrimLevel = rdr["car_trim_level"].ToString();
-                    car.CarMake = rdr["car_make_description"].ToString();
-                    car.CarEngine = rdr["engine_description"].ToString();
-                    car.CarModel = rdr["car_model_description"].ToString();
-                    car.Price = (float)rdr["car_model_description"];
+                    car.CarId = Convert.ToInt32(rdr["car_id"]);
+                    car.CarTrimLevelId = Convert.ToInt32(rdr["car_trim_level_id"]);
+                    car.CarMakeId = Convert.ToInt32(rdr["car_make_id"]);
+                    car.CarModelId = Convert.ToInt32(rdr["car_model_id"]);
+                    car.Price = Convert.ToDecimal(rdr["car_model_description"]);
                     car.NumInStock = Convert.ToInt32(rdr["num_in_stock"]);
                 };
                 con.Close();
@@ -184,32 +188,25 @@ namespace VW_CarStock_Classes
 
         public void InsertNewCar(Car car)
         {
+            System.Diagnostics.Debug.WriteLine("!!!-->> Car Deets" + car.CarMakeId.ToString() + " " + car.CarModelId.ToString() );
+
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                var cmd = new SqlCommand("InsertNewCar", con);
+                var cmd = new SqlCommand("CreateCar", con);
                 con.Open();
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@carMakeId", car.CarMake);
-                cmd.Parameters.AddWithValue("@carModelId", car.CarModel);
-                cmd.Parameters.AddWithValue("@carTrimLevelId", car.CarTrimLevel);
-                cmd.Parameters.AddWithValue("@carengineTypeId", car.CarEngine);
+                cmd.Parameters.AddWithValue("@carMakeId", car.CarMakeId);
+                cmd.Parameters.AddWithValue("@carModelId", car.CarModelId);
+                cmd.Parameters.AddWithValue("@carTrimLevelId", car.CarTrimLevelId);
+                cmd.Parameters.AddWithValue("@carengineTypeId", car.CarEngineId);
                 cmd.Parameters.AddWithValue("@price", car.Price);
                 cmd.Parameters.AddWithValue("@numStock", car.NumInStock);
 
-                try
-                {
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error Updating CarStock: " + ex.Message);
-                    throw;
-                }
+                cmd.ExecuteNonQuery(); 
             }
         }
     
-
         public void UpdateCar(Car car)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
@@ -218,10 +215,10 @@ namespace VW_CarStock_Classes
                 cmd.CommandType = CommandType.StoredProcedure;
                 con.Open();
                 cmd.Parameters.AddWithValue("@car_id", car.CarId);
-                cmd.Parameters.AddWithValue("@carMakeId", car.CarMake);
-                cmd.Parameters.AddWithValue("@carModelId", car.CarModel);
-                cmd.Parameters.AddWithValue("@carTrimLevelId", car.CarTrimLevel);
-                cmd.Parameters.AddWithValue("@carengineTypeId", car.CarEngine);
+                cmd.Parameters.AddWithValue("@carMakeId", car.CarMakeId);
+                cmd.Parameters.AddWithValue("@carModelId", car.CarModelId);
+                cmd.Parameters.AddWithValue("@carTrimLevelId", car.CarTrimLevelId);
+                cmd.Parameters.AddWithValue("@carengineTypeId", car.CarEngineId);
                 cmd.Parameters.AddWithValue("@price", car.Price);
                 cmd.Parameters.AddWithValue("@numStock", car.NumInStock);
 

@@ -6,34 +6,70 @@
 <h2>@ViewData["Title"]</h2>
 
 <div class="container">
-    <div class="row">
-        <div class="col" >
+   
             @if (Model.Cars.Count()>0)
             {
                 @foreach (var car in Model.Cars)
                 {
-                    <button class="accordion">@Html.DisplayFor(m => car.CarMake) </button>
+                <div class="row">
+                  <div class="col-6" >
+                    <button class="accordion accordion-before btn-light btn-block " style="text-align:left">
+                       @Html.DisplayFor(m => car.CarMake) @Html.DisplayFor(m => car.CarModel) - @Html.DisplayFor(m => car.CarTrimLevel)
+
+                    </button>
                     <div class="panel">
-                        <p></p>
-                        <p></p>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <button type="button" class="btn btn-labeled btn-light"  onclick="">
+                                    <span class="btn-label"><i class="glyphicon glyphicon-pencil"></i></span>
+                                    <a class="" style="text-decoration: none; color:black;" asp-area="" asp-page="/ModifyCarStock">Update</a>
+                                </button>
+                            </li>
+                            <li class="list-group-item">
+                                Make: @Html.DisplayFor(m => car.CarMake)            <br>
+                                Model: @Html.DisplayFor(m => car.CarModel)          <br>
+                                Trim Level: @Html.DisplayFor(m => car.CarTrimLevel) <br>
+                                Engine: @Html.DisplayFor(m => car.CarEngine)        <br>
+                                Features:                                           <br>
+                                <ul >
+                                   @foreach (var feature in car.Features)
+                                   {
+                                        <li class="list-group-item">@Html.DisplayFor(m => feature.Value) </li>
+                                   }
+                                </ul>
+                        </ul>
                     </div>
+                    </div>
+                    <div class="col-2" >
+                        <button type="button" class="btn">
+                            <img src="~/pic/icon_edit.png" height=30 width=30> 
+                        </button>
+
+                        <input type="number" class="form-control" value="@Html.DisplayFor(m => car.NumInStock)"/> <span> in stock </span> 
+                    </div>
+                  </div>
                 }
             }
             else
             {
+                 <div class="row">
+        <div class="col-6" >
                 <p>No cars found.</p>
-            }
-        </div>
+                   </div>
+       
     </div>
-</div>
+            }
+     </div>
 
-<div class="row">
-    <div class="col" >
-        <button type="button" class="btn btn-labeled btn-success" >
-            <span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
-            <a class="" style="text-decoration: none; color:white;" asp-area="" asp-page="/ModifyCarStock">Add New Car</a>
-        </button>
+<div class="container">
+    <div class="row">
+        <div class="col" >
+            <button type="button" class="btn btn-labeled btn-success" >
+                <span class="btn-label"><i class="glyphicon glyphicon-floppy-disk"></i></span>
+                <a class="" style="text-decoration: none; color:white;" asp-area="" asp-page="/ModifyCarStock">Add New Car</a>
+            </button>
         
+        </div>
     </div>
 </div>
 

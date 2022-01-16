@@ -71,8 +71,12 @@
     <Build Include="StoredProcedures\CreateCarStock.sql" />
     <Build Include="StoredProcedures\FetchAllCarStock.sql" />
     <Build Include="StoredProcedures\FetchCarStockByCarId.sql" />
-    <Build Include="StoredProcedures\InitializeList.sql" />
+    <Build Include="StoredProcedures\InitializeModelList.sql" />
     <Build Include="StoredProcedures\FetchCarFeaturesByCarId.sql" />
+    <Build Include="StoredProcedures\InitializeMakeList.sql" />
+    <Build Include="StoredProcedures\InitializeCarTrimLevelList.sql" />
+    <Build Include="StoredProcedures\InitializeFeatureList.sql" />
+    <Build Include="StoredProcedures\InitializeEngineList.sql" />
   </ItemGroup>
   <ItemGroup>
     <RefactorLog Include="VW_CarStock_DB.refactorlog" />
